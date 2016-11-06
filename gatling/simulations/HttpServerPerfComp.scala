@@ -4,7 +4,7 @@ import scala.concurrent.duration._
 
 class HttpServerPerfComp extends Simulation {
   val repetitions = 100
-  val maxUsersPerSec = 50
+  val maxUsersPerSec = 40
   val minUsersPerSec = maxUsersPerSec / 10
   val rampUpDuration = 30 seconds
   val peakDuration = 1 minutes

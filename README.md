@@ -19,6 +19,9 @@ In each of these scenarios we repeat sending a `GET` request to the correspondin
 We fire these scenarios at the servers starting with `minUsersPerSec` and linearly increase the firing rate up to `maxUsersPerSec` which we then hold for `peakDuration`.  
 
 ## Running it locally
+This setup has the advantage to be the easiest.  
+At the same time it has the disadvantage that both servers and the load generator share the same resources and we have to use additional tools to monitor the resource consumption of each server.
+
 ### Requirements
 * Java 8
 * Installed gatling, set environmant variable `GATLING_HOME` to the installation directory.
@@ -34,9 +37,35 @@ We fire these scenarios at the servers starting with `minUsersPerSec` and linear
 7. switch back to the first terminal and run the load-test with `./runGatling.sh`. The scipt tells you every so often what currently happens. 
 8. You will find a report with the results in `build/reports/httpserverperfcomp-*`.
 
+You can stop the servers with `Ctrl-C` in their terminals.
+
 In case you overloaded your systems (and the test exploded), you should restart the both servers and reduce the generated load by decreasing e.g. `maxUsersPerSec`
 
 You will notice, the the numbers for both servers look very similar.
 What these reports don't tell you is, that the Netty server consumes **far less CPU cycles and memory** than the SpringBoot server.
 This can easily be observed with tools like `jvisualvm` or `jmc`.
 
+On my machine (3.5 GHz Intel Core i7, 8GB RAM), I can run up to 100 users/s and still getting response times below 2ms for 90% of the requests (both servers).  
+The test ran 1.530.000 requests within 92 seconds.
+The Netty server consumes ~6% CPU and uses ~30MB memory.  
+The SpringBoot server consumes ~26% CPU and uses ~100MB memory.
+
+## Running it with Vagrant & VirtualBox
+This setup somewhat more complicated but has the advantage that each server's resources can be limited via the VM specs.  
+Therefore the measured response times are (more or less) directly comparable.  
+This will be good enough for a rough assessment of each server's capabilities.
+
+### Requirements
+* Vagrant (tested with version 1.8.4)
+* Vagrant plugin `vagrant-vbguest` (install with `vagrant plugin install vagrant-vbguest`)
+
+### Process
+1. git clone this repository.  
+   All following commands assume this project directory as working directory.
+2. build with `./gradlew build`
+3. run `vagrant up` to start the servers.
+4. run the load-test with `./runGatling.sh`. The scipt tells you every so often what currently happens. 
+5. You will find a report with the results in `build/reports/httpserverperfcomp-*`.
+
+On my machine, I can run up to 40 users/s with this setup.  
+While Netty still shows very good response times (75% <2ms, 95% <4ms, 99% <6ms, max. 24ms), SpringBoot degrades significantly (75% <10ms, 95% <16ms, 99% <23ms, max. 115ms).
