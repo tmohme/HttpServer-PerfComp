@@ -7,11 +7,13 @@ buildscript {
   }
 }
 
-apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'spring-boot'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+mainClassName = 'org.mohme.perfcompare.springboot.HttpSnoopServer'
 
 repositories {
   mavenCentral()
@@ -19,4 +21,8 @@ repositories {
 
 dependencies {
   compile("org.springframework.boot:spring-boot-starter-web")
+}
+
+run {
+  maxHeapSize = "1G"
 }
