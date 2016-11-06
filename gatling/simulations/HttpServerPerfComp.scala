@@ -1,9 +1,12 @@
-package snoop
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import scala.concurrent.duration._
 
-class BasicSimulation extends Simulation {
-  val maxUsersPerSec = 100
-  val minUsersPerSec = maxUsersPerSec / 5
-  val rampUpDuration = 10 seconds
+class HttpServerPerfComp extends Simulation {
+  val repetitions = 100
+  val maxUsersPerSec = 50
+  val minUsersPerSec = maxUsersPerSec / 10
+  val rampUpDuration = 30 seconds
   val peakDuration = 1 minutes
 
   val httpConf = http
@@ -15,13 +18,13 @@ class BasicSimulation extends Simulation {
 
 
   val springboot = scenario("Spring Boot")
-    .repeat(100) {
+    .repeat(repetitions) {
       exec(http("spring boot")
         .get("http://localhost:8080/"))
     }
 
   val netty = scenario("Netty")
-    .repeat(100) {
+    .repeat(repetitions) {
       exec(http("netty")
         .get("http://localhost:8081/"))
     }
