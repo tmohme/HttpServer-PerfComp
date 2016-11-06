@@ -24,12 +24,13 @@ We fire these scenarios at the servers starting with `minUsersPerSec` and linear
 * Installed gatling, set environmant variable `GATLING_HOME` to the installation directory.
 
 ### Process
-1. git clone this repository
-2. build with `./gradlew build`
+1. git clone this repository.  
+   All following commands assume this project directory as working directory.
+2. build with `./gradlew installDist`
 3. open a new terminal to run the Netty server
-4. in the new terminal run the Netty server with `./gradlew netty:run`
+4. in the new terminal run the Netty server with `./runNetty.sh`
 5. open a new terminal to run the SpringBoot/Tomcat server
-6. in the new terminal run the SpringBoot/Tomcat server with `./gradlew springboot:bootRun`
+6. in the new terminal run the SpringBoot/Tomcat server with `./runSpringBoot.sh`
 7. switch back to the first terminal and run the load-test with `./runGatling.sh`. The scipt tells you every so often what currently happens. 
 8. You will find a report with the results in `build/reports/httpserverperfcomp-*`.
 

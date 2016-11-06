@@ -23,6 +23,6 @@ dependencies {
   compile("org.springframework.boot:spring-boot-starter-web")
 }
 
-run {
-  maxHeapSize = "1G"
+startScripts {
+  defaultJvmOpts = ['-Xmx1G']
 }

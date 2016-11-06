@@ -13,6 +13,6 @@ dependencies {
   compile("io.netty:netty-all:4.1.6.Final")
 }
 
-run {
-  maxHeapSize = "1G"
+startScripts {
+  defaultJvmOpts = ['-Xmx1G']
 }
