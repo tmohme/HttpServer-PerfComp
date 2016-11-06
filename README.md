@@ -4,7 +4,7 @@ A pretty rough performance comparison of a Tomcat- vs. Netty-based HTTP server.
 The Netty-based server is essentially the HttpSnoopServer from the
 [Netty examples](https://github.com/netty/netty/tree/4.1/example/src/main/java/io/netty/example/http/snoop).
 
-The Tomcat-based server is implemented using a very simple spring-boot project. It's functionality is similar to the Netty-based server: It return the sent HTTP RequestHeader values in a very simple Html document.
+The Tomcat-based server is implemented using a very simple spring-boot project. It's functionality is similar to the Netty-based server: It returns the sent HTTP RequestHeader values in a very simple Html document.
 
 The requests are generated with [gatling](http://gatling.io/), a load-test tool bases on Scala, Akka and Netty.
 
@@ -39,10 +39,10 @@ At the same time it has the disadvantage that both servers and the load generato
 
 You can stop the servers with `Ctrl-C` in their terminals.
 
-In case you overloaded your systems (and the test exploded), you should restart the both servers and reduce the generated load by decreasing e.g. `maxUsersPerSec`
+In case you overloaded your systems (and the test exploded), you should restart both servers and reduce the generated load e.g. by decreasing `maxUsersPerSec`
 
-You will notice, the the numbers for both servers look very similar.
-What these reports don't tell you is, that the Netty server consumes **far less CPU cycles and memory** than the SpringBoot server.
+You will notice, that the numbers for both servers look very similar.
+What these reports don't tell you, is that the Netty server consumes **far less CPU cycles and memory** than the SpringBoot server.
 This can easily be observed with tools like `jvisualvm` or `jmc`.
 
 On my machine (3.5 GHz Intel Core i7, 8GB RAM), I can run up to 100 users/s and still getting response times below 2ms for 90% of the requests (both servers).  
